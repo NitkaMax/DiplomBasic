@@ -3,8 +3,8 @@ from VK import Vk
 
 
 if __name__ == '__main__':
-    tokenvk = '188be8bee64dca2b2c654c821aab7c83af8771cb24c9dce53f73a019d88a589ebd1faed82c55ce69ca98a'
-    tokenya = 'AQAAAABKsJ-SAADLW5usGNNGgkwRtZCCrjG-MKY'
+    tokenvk = ''
+    tokenya = ''
     file_path = 'filename.json' 
 
     
@@ -18,7 +18,7 @@ if __name__ == '__main__':
         print('Прогресс: Данные от ID ' + (id) + ' получены')
         result = vk.sort_best_foto(res)
         print(f'Прогресс: Выбраны {len(result)} фото наилучшего разрешения')
-        result = vk.rename_file_likes(result)
+        result = vk.rename_by_num_of_likes(result)
         print('Прогресс: Имена файлов подготвлены для записи на Яндекс.Диск')
         vk.create_json(result, file_path)
         print('Прогресс: Файл Json создан')
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         dir_name = input('Назовите папку на Яндекс.Диске: ')
         ya = Yandex(tokenya)
         print('Прогресс: Создаем папку на Яндеск.Диске')
-        ya.make_dir(dir_name)
+        ya.create_dir(dir_name)
         for i, foto in enumerate(result):
             print(f'Прогресс: загрузка {i + 1} фото из {len(result)}')
             ya.upload_file_url(dir_name, foto["file_name"], foto['url'])
