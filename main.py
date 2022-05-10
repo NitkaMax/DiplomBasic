@@ -1,8 +1,13 @@
 from Yand import Yandex
 from VK import Vk
+from time import sleep
+from tqdm import tqdm, tqdm_gui, trange
+
 
 
 if __name__ == '__main__':
+    for i in tqdm(__name__, desc="Запуск программы: ", leave=False):
+        sleep(1)
     tokenvk = ''
     tokenya = ''
     file_path = 'filename.json' 
@@ -31,7 +36,11 @@ if __name__ == '__main__':
         for i, foto in enumerate(result):
             print(f'Прогресс: загрузка {i + 1} фото из {len(result)}')
             ya.upload_file_url(dir_name, foto["file_name"], foto['url'])
-        print('Прогресс: Запись JSON файла на Яндекс.Диск')
+        # print('Прогресс: Запись JSON файла на Яндекс.Диск')
         ya.upload_file_path(dir_name, file_path)
         print('Прогресс: Программа выполнена')
+#145053917
+# 163404306
+
+
 

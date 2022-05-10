@@ -3,6 +3,8 @@ import time
 import json
 from error_code import error_request
 from pprint import pprint
+from time import sleep
+from tqdm import tqdm
 
 class Vk():
     def __init__(self, token):
@@ -19,6 +21,8 @@ class Vk():
             'v': '5.131'
         }
         res = requests.get(URL, params=params, timeout=5)
+        for i in tqdm(res, desc="Получение ответа от сервера: ",leave=False):
+            sleep(0.2)
         if res.status_code == 200:
             print('Прогресс: 200 - Получен корректный ответ от сервера')
             error_test = res.json().get('error')  # проверка приватности
@@ -35,6 +39,8 @@ class Vk():
 
         TypeSize = ('w', 'z', 'y', 'x', 'r', 'q', 'p', 'o', 'm', 's')  
         result = []
+        for x in tqdm(result, desc="Подбор фотоматериалов наилучшего качества: ",leave=False):
+            sleep(.5)
         for j in range(len(res.json()['response']['items'])):
             size_max = 10
             for i in range(len(res.json()['response']['items'][j]['sizes'])):
@@ -60,15 +66,22 @@ class Vk():
         for like in likes_unique:
             likes.remove(like)
         likes = list(set(likes))
-        print('Прогресс: Количество лайков по каждой фото получено')
+        for i in tqdm(likes, desc="Подсчет количечсктва лайков для каждого фото: ",leave=False):
+            sleep(.5)
+        print('Прогресс: Количество лайков для каждого фото получено') 
         for file_name in result:
             for like in likes:
                 if like == file_name['likes']:
                     time_name = time.localtime(file_name["date"])
                     file_name['file_name'] = f'{like} {time_name.tm_mday}.{time_name.tm_mon}.{time_name.tm_year}.jpg'
+        for x in tqdm(result, desc="Присвоение имени фото", leave=False):
+            sleep(.3) 
         return result
+        
 
     def create_json(self, result, file_path):
+        for x in tqdm(file_path, desc="Cоздание JSON файла: ",leave=False):
+            sleep(.5)
         json_tmp = []
         for i in result:
             dic_tmp = {}
@@ -77,6 +90,8 @@ class Vk():
             json_tmp.append(dic_tmp)
         with open(file_path, 'w') as f:
             json.dump(json_tmp, f)
+
+
 
 def error_code_vk(error):
     error_dic = {
